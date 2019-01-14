@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from text_reader_app import open_window
 import time
 #import run
@@ -34,12 +34,17 @@ class App:
         else:
             print("something went wrong")
 
-
+    #should add a try and except block with a messagebox when the password is wrong?
+    #how it looks is kind of hoky but easier than what i'm trying to do with the label disappearing
+    #try and except could be if tkinter encounters a problem opening the window instead of the program crashing
     def validate_login(self) -> "function":
         self.un = self.entry_uname.get()
         self.pw = self.entry_pw.get()
         if (self.pw == "password") and (self.un == "zach"):
-            return open_window() #function from imported text_reader_app
+            try:
+                return open_window() #function from imported text_reader_app
+            except Exception as error:
+                messagebox.showwarning("Text Reader Error", "An Error Occured: (%s)" % error)
         else:
             return self.error_msg()
 
@@ -56,6 +61,7 @@ def main():
     root = Tk()
     root.geometry("300x90")
     root.title("Login")
+    root.iconbitmap(r"C:\\Users\\Zach\\Documents\\Git\\textprogram\\favicon\\favicon.ico")
     app = App(root)
     root.mainloop()
 
